@@ -1,0 +1,26 @@
+01 BEGIN 
+03 	Initialize sc  to new Scanner
+04 	Initialize buffer to new StringBuffer
+05 	Print "Supply full document path: "
+06 	Set documentUrl to user inputed uri
+07 	Set fileExt to extension from file url
+08 	SWITCH(fileExt)
+09 		CASE "txt"
+10			Initialize textReader to new TextReader()
+11			Read text document and add it to buffer
+12			break
+13		CASE "pdf"
+14			Initialize pdfReader to new PDFReader()
+15			Read text document and add it to buffer
+16			break
+17		CASE "doc or docx"
+18			Initialize wordReader to new WordDocumentReader();
+19          Read text document and add it to buffer
+20			break
+21 		DEFAULT 
+22			throw UnknownFormatException
+23 	Convert buffer to String
+24 		Remove unwanted String from buffer with replaceAll("[^a-zA-Z ]", " ") regex expression
+25 		Split text into words with split("\\s+")
+26 		Write text into csv document
+27 END
