@@ -5,7 +5,6 @@
  */
 package languagefileprocessor;
 
-import java.util.Map;
 import java.util.Scanner;
 import java.util.UnknownFormatFlagsException;
 import languagefileprocessor.reader.PDFReader;
@@ -25,7 +24,6 @@ public class LanguageFileProcessor {
      */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
         StringBuffer buffer = new StringBuffer();
 
         System.out.println("Supply full document path: ");
@@ -53,17 +51,16 @@ public class LanguageFileProcessor {
         
         System.out.println("Total number of characters is: "+ CalculateStatistics.getCharacterCount(cleanedText));
         System.out.println("Total number of words is: "+ textArray.length);
+        System.out.println("=============== Word Frquency =============");
+        
         
         // Loop to iterate over the
         // elements of the map
-        for(Map.Entry<String,Integer> entry: CalculateStatistics.getWordCount(textArray).entrySet())
-        {
-            System.out.println(entry.getKey() + " - " + entry.getValue());
-        }
-        
-        String path = documentUrl.substring(0, documentUrl.lastIndexOf("\\"));
-        
+        CalculateStatistics.getWordCount(textArray).entrySet().forEach(entry -> {
+                System.out.format("%15s%10d \n", entry.getKey(), entry.getValue());
+        });
+           
         //Send Final Data Array into a CSV File
-        WriteCSV.writeToCsv(textArray, path);
+        WriteCSV.writeToCsv(textArray, documentUrl.substring(0, documentUrl.lastIndexOf("\\")));
     }
 }
