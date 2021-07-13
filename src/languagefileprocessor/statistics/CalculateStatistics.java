@@ -16,24 +16,21 @@ import java.util.TreeMap;
 public class CalculateStatistics {
     
     public static int getCharacterCount(String buffer){
-        String line;
-         
+        
         // Initializing counters
         int characterCount = 0;
         
-        System.out.println("The entered string is: "+ characterCount);
         //Count the characters in the string except space    
         for(int i = 0; i < buffer.length(); i++) 
         {    
             if(buffer.charAt(i) != ' ')    
                 characterCount++;    
-        }                
-        //Displays the total number of characters in the string    
-        System.out.println("Total number of characters in the string: " + characterCount);
+        }
         return characterCount;
     }
     
     public static Map<String,Integer> getWordCount(String[] textArray){
+        
         Map<String,Integer> mp = new TreeMap<>();
  
         // Loop to iterate over the words

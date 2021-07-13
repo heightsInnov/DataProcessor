@@ -25,9 +25,7 @@ public class WordDocumentReader {
         WordExtractor docExtractor = null;
         XWPFWordExtractor docxExtractor = null;
         try {
-
             file = new File(documentUrl);
-//            file = new File("C:\\Users\\User\\Documents\\Externals\\test1.doc");
             try (FileInputStream fis = new FileInputStream(file.getAbsolutePath())) {
                 if (ext.equals("doc")) {
                     HWPFDocument document = new HWPFDocument(fis);
@@ -39,7 +37,6 @@ public class WordDocumentReader {
                     buffer.append(docxExtractor.getText());
                 }
             }
-            System.out.println("Buffer is >> \n" + buffer);
         } catch (Exception exep) {
             exep.printStackTrace();
         }
