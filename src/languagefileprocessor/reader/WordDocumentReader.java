@@ -12,6 +12,7 @@ import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 
 /**
  *
@@ -23,23 +24,21 @@ public class WordDocumentReader {
         StringBuffer buffer = new StringBuffer();
 
         File file = null;
-        WordExtractor extractor = null;
+        WordExtractor docExtractor = null;
+        XWPFWordExtractor docxExtractor = null;
         try {
 
-//            file = new File(documentUrl);
-            file = new File("C:\\Users\\User\\Documents\\Externals\\test1.doc");
+            file = new File(documentUrl);
+//            file = new File("C:\\Users\\User\\Documents\\Externals\\test1.doc");
             try (FileInputStream fis = new FileInputStream(file.getAbsolutePath())) {
                 if (ext.equals("doc")) {
                     HWPFDocument document = new HWPFDocument(fis);
-                    extractor = new WordExtractor(document);
-                    buffer.append(extractor.getText());
+                    docExtractor = new WordExtractor(document);
+                    buffer.append(docExtractor.getText());
                 } else {
                     XWPFDocument document = new XWPFDocument(fis);
-                    List<XWPFParagraph> paragraphs = document.getParagraphs();
-                    
-                    for (XWPFParagraph para : paragraphs) {
-                        buffer.append(para.getText());
-                    }
+                    docxExtractor = new XWPFWordExtractor(document);
+                    buffer.append(docxExtractor.getText());
                 }
             }
             System.out.println("Buffer is >> \n" + buffer);
