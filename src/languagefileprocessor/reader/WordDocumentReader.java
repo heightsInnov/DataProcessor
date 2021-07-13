@@ -7,11 +7,9 @@ package languagefileprocessor.reader;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.List;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 
 /**

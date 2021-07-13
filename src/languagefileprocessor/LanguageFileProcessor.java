@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.UnknownFormatFlagsException;
 import languagefileprocessor.reader.PDFReader;
-import languagefileprocessor.reader.RemoveUnwantedChar;
+import languagefileprocessor.cleaner.RemoveUnwantedChar;
 import languagefileprocessor.reader.TextReader;
 import languagefileprocessor.reader.WordDocumentReader;
 import languagefileprocessor.statistics.CalculateStatistics;

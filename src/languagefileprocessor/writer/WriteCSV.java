@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+import java.util.Date;
 
 /**
  *
@@ -22,7 +23,9 @@ public class WriteCSV {
         List<String> wordList = new ArrayList<>();
         Collections.addAll(wordList, wordArray);
 
-        try (FileWriter csvWriter = new FileWriter(pathToFile)) {
+        Long dateTimeMills = new Date().getTime();
+        
+        try (FileWriter csvWriter = new FileWriter(pathToFile+"\\"+dateTimeMills+".csv")) {
             csvWriter.append(String.join(",", wordList));
             csvWriter.flush();
             csvWriter.close();
