@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package languagefileprocessor.runner;
+package languagefileprocessor.reader;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,7 +30,6 @@ public class TextReader {
                 buffer.append("\n");
             }
             reader.close();
-
             System.out.println("Reader read >> \n " + buffer);
         } catch (Exception e) {
             return buffer;

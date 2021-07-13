@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package languagefileprocessor.runner;
+package languagefileprocessor.reader;
 
 /**
  *
@@ -11,8 +11,13 @@ package languagefileprocessor.runner;
  */
 public class RemoveUnwantedChar {
 
-    public static String[] cleanText(String text) {
+    public static String cleanText(String text) {
         
-        return text.replaceAll("[^a-zA-Z ]", " ").toLowerCase().split("\\s+");
+        return text.replaceAll("[^a-zA-Z ]", " ").toLowerCase();
+    }
+    
+    public static String[] splitText(String text) {
+        
+        return text.split("\\s+");
     }
 }
