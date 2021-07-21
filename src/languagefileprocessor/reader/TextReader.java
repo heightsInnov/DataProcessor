@@ -32,6 +32,7 @@ public class TextReader {
             reader.close();
             System.out.println("Reader read >> \n " + buffer);
         } catch (Exception e) {
+            System.out.println("Error locating/reading file, please check url and try again");
             return buffer;
         } finally {
             try {
