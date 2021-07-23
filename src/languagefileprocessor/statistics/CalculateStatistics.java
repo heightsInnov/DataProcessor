@@ -5,7 +5,6 @@
  */
 package languagefileprocessor.statistics;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -34,15 +33,15 @@ public class CalculateStatistics {
         Map<String,Integer> mp = new TreeMap<>();
  
         // Loop to iterate over the words
-        for(int i=0;i<textArray.length;i++)
-        {
+        for (String textArray1 : textArray) {
             // Condition to check if the
             // array element is present
             // the hash-map
-            if(mp.containsKey(textArray[i]))
-                mp.put(textArray[i], mp.get(textArray[i])+1);
-            else
-                mp.put(textArray[i],1);
+            if (mp.containsKey(textArray1)) {
+                mp.put(textArray1, mp.get(textArray1) + 1);
+            } else {
+                mp.put(textArray1, 1);
+            }
         }
         return mp;
     }

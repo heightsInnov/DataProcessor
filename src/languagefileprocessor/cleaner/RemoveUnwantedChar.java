@@ -5,6 +5,9 @@
  */
 package languagefileprocessor.cleaner;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
  * @author User
@@ -13,11 +16,12 @@ public class RemoveUnwantedChar {
 
     public static String cleanText(String text) {
         
-        return text.replaceAll("[^a-zA-Z_]", " ").toLowerCase();
+        return text.replaceAll("[^a-zA-Z_ ]", " ").toLowerCase();
     }
     
-    public static String[] splitText(String text) {
+    public static List<String> splitText(String text) {
         
-        return text.split("\\s+");
+        String[] t = text.split("\\s+");
+        return  Arrays.asList(t);
     }
 }
