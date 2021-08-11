@@ -5,6 +5,7 @@
  */
 package languagefileprocessor.statistics;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -14,18 +15,24 @@ import java.util.TreeMap;
  */
 public class CalculateStatistics {
     
-    public static int getCharacterCount(String buffer){
+    public static List<String> getCharacterCount(String buffer, List<String> list){
         
         // Initializing counters
         int characterCount = 0;
+        int spaceCount = 0;
         
         //Count the characters in the string except space    
         for(int i = 0; i < buffer.length(); i++) 
         {    
             if(buffer.charAt(i) != ' ')    
-                characterCount++;    
+                characterCount++; 
+            else
+                spaceCount++;
+                
         }
-        return characterCount;
+        list.add(String.valueOf(characterCount));
+        list.add(String.valueOf(spaceCount));
+        return list;
     }
     
     public static Map<String,Integer> getWordCount(String[] textArray){
