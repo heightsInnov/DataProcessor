@@ -52,4 +52,31 @@ public class CalculateStatistics {
         }
         return mp;
     }
+    
+    public static List<String> calculateWordLength(List<String> textArray, List<String> inputList, String lang){
+        
+        int shortCount = 0;
+        int longCount = 0;
+        
+        if(lang.equals("german")){
+            for(String s : textArray){
+                    if(s.length() > 6)
+                        longCount++;
+                    else
+                        shortCount++;
+                }
+        }else{
+            for(String s : textArray){
+                    if(s.length() > 5)
+                        longCount++;
+                    else
+                        shortCount++;
+                }
+        }
+        
+        inputList.add(String.valueOf(shortCount));
+        inputList.add(String.valueOf(longCount));
+        
+        return inputList;
+    }
 }

@@ -97,6 +97,9 @@ public class LanguageFileProcessor {
         metrics.add("word count");
         metrics.add("Vowel count");
         metrics.add("Consonant count");
+        metrics.add("Short word count");
+        metrics.add("Long word count");
+        metrics.add("Sentence length");
 //        metrics.add("Line count");
 
         statistics.add(metrics);
@@ -142,6 +145,9 @@ public class LanguageFileProcessor {
             results = CalculateStatistics.getCharacterCount(cleanedText, results);
             results.add(String.valueOf(textArray.size()));
             results = GetVowelCount.vowelCount(cleanedText, results, textArray.get(0));
+            results = CalculateStatistics.calculateWordLength(textArray, results, textArray.get(0));
+            results.add(String.valueOf(buffer.toString().split ("[\\.\\?!]").length));
+
 //            try {
 //                results.add(String.valueOf(Files.lines(Paths.get(docUrl)).count()));
 //            } catch (IOException ex) {
@@ -152,6 +158,7 @@ public class LanguageFileProcessor {
 
             String[] textArrayString = textArray.toArray(new String[0]);
             Map<String, Integer> freq = new HashMap<>();
+            
 //             Loop to iterate over the
 //             elements of the map
             CalculateStatistics.getWordCount(textArrayString).entrySet().forEach(entry -> {
