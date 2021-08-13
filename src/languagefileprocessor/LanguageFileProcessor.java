@@ -6,17 +6,9 @@
 package languagefileprocessor;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import languagefileprocessor.reader.PDFReader;
 import languagefileprocessor.cleaner.RemoveUnwantedChar;
@@ -40,6 +32,7 @@ public class LanguageFileProcessor {
     String cleanedText = "";
     int sampleLength = 0;
     List<List<String>> statistics = new ArrayList<>();
+    String uncleanText = "";
 
     private void Processor() {
 
@@ -56,29 +49,12 @@ public class LanguageFileProcessor {
         }
 
         //======= Receive file path ===========
-        List<String> docPaths = new ArrayList<>();
-        String docspath = "";
-
-        System.out.println("Supply document path EN: \n");
-        docspath = sc.nextLine().trim();
-        if (!docspath.isEmpty()) {
-            docPaths.add(docspath);
-        } else {
-            System.out.println("Supply document path EN: \n");
+        System.out.println("Supply document path: \n");
+        String docspath = sc.nextLine().trim();
+        if (docspath.isEmpty()) {
+            System.out.println("Supply document path: \n");
             docspath = sc.nextLine().trim();
         }
-
-        System.out.println("Supply document path FR: \n");
-        docPaths.add(sc.nextLine().trim());
-
-        System.out.println("Supply document path GR: \n");
-        docPaths.add(sc.nextLine().trim());
-
-        System.out.println("Supply document path PR: \n");
-        docPaths.add(sc.nextLine().trim());
-
-        System.out.println("Supply document path SP: \n");
-        docPaths.add(sc.nextLine().trim());
 
         //======= Receive character length for sampling ===========
         System.out.println("Supply character length for sampling: ");
@@ -104,84 +80,86 @@ public class LanguageFileProcessor {
 
         statistics.add(metrics);
 
-        String fileExt;
-        String docUrl = "";
-        for (String documentUrl : docPaths) {
-            fileExt = documentUrl.substring(documentUrl.lastIndexOf(".") + 1);
-            docUrl = documentUrl;
-
-            switch (fileExt.toLowerCase()) {
-                case "pdf":
-                    PDFReader pdfReader = new PDFReader();
-                    buffer = pdfReader.extractPdf(documentUrl);
-                    break;
-                case "txt":
-                    TextReader txtReader = new TextReader();
-                    buffer = txtReader.ReadFileUrl(documentUrl);
-                    break;
-                case "doc":
-                case "docx":
-                    WordDocumentReader wordReader = new WordDocumentReader();
-                    buffer = wordReader.extractWord(documentUrl, fileExt);
-                    break;
-                default:
-                    System.out.println("File format not permitted.");
-            }
-
-            if (buffer.toString().isEmpty()) {
-                System.out.println("Unable to process file, process returned an empty string!");
-            }
-
-            checkCount(sampleLength);
-
-            List<String> textArray = RemoveUnwantedChar
-                    .splitText(cleanedText)
-                    .stream()
-                    .filter(t -> !t.isEmpty())
-                    .collect(Collectors.toList());
-
-            List<String> results = new ArrayList<>();
-            results.add(textArray.get(0));
-            results = CalculateStatistics.getCharacterCount(cleanedText, results);
-            results.add(String.valueOf(textArray.size()));
-            results = GetVowelCount.vowelCount(cleanedText, results, textArray.get(0));
-            results = CalculateStatistics.calculateWordLength(textArray, results, textArray.get(0));
-            results.add(String.valueOf(buffer.toString().split ("[\\.\\?!]").length));
-
-//            try {
-//                results.add(String.valueOf(Files.lines(Paths.get(docUrl)).count()));
-//            } catch (IOException ex) {
-//                Logger.getLogger(LanguageFileProcessor.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-
-            statistics.add(results);
-
-            String[] textArrayString = textArray.toArray(new String[0]);
-            Map<String, Integer> freq = new HashMap<>();
-            
-//             Loop to iterate over the
-//             elements of the map
-            CalculateStatistics.getWordCount(textArrayString).entrySet().forEach(entry -> {
-                freq.put(entry.getKey(), entry.getValue());
-                System.out.format("%15s%10d \n", entry.getKey(), entry.getValue());
-            });
+        String fileExt = docspath.substring(docspath.lastIndexOf(".") + 1);
+        switch (fileExt.toLowerCase()) {
+            case "pdf":
+                PDFReader pdfReader = new PDFReader();
+                buffer = pdfReader.extractPdf(docspath);
+                break;
+            case "txt":
+                TextReader txtReader = new TextReader();
+                buffer = txtReader.ReadFileUrl(docspath);
+                break;
+            case "doc":
+            case "docx":
+                WordDocumentReader wordReader = new WordDocumentReader();
+                buffer = wordReader.extractWord(docspath, fileExt);
+                break;
+            default:
+                System.out.println("File format not permitted.");
         }
 
-        System.out.println(statistics);
+        int totalCount = 0;
+        String bufferString = buffer.toString();
+        if (bufferString.isEmpty()) {
+            System.out.println("Unable to process file, process returned an empty string!");
+        } else {
+            totalCount = bufferString.length();
+        }
+
+        List<String> list = new ArrayList<>();
+        int index = 0;
+        while (index < totalCount) {
+            list.add(bufferString.substring(index, Math.min(index + sampleLength, totalCount)));
+            index = index + sampleLength;
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            if (i <= 15) {
+                checkCount(list.get(i), sampleLength);
+                List<String> textArray = RemoveUnwantedChar
+                        .splitText(cleanedText)
+                        .stream()
+                        .filter(t -> !t.isEmpty())
+                        .collect(Collectors.toList());
+
+                List<String> results = new ArrayList<>();
+                results.add("Sample" + (i + 1));
+                results = CalculateStatistics.getCharacterCount(cleanedText, results);
+                results.add(String.valueOf(textArray.size()));
+                results = GetVowelCount.vowelCount(cleanedText, results, textArray.get(0));
+                results = CalculateStatistics.calculateWordLength(textArray, results, textArray.get(0));
+                results.add(String.valueOf(uncleanText.split("[\\.\\?!]").length));
+
+                statistics.add(results);
+
+//                String[] textArrayString = textArray.toArray(new String[0]);
+//                Map<String, Integer> freq = new HashMap<>();
+//
+////             Loop to iterate over the
+////             elements of the map
+//                CalculateStatistics.getWordCount(textArrayString).entrySet().forEach(entry -> {
+//                    freq.put(entry.getKey(), entry.getValue());
+//                    System.out.format("%15s%10d \n", entry.getKey(), entry.getValue());
+//                });
+//                freqs.add(freq);
+            }
+        }
         //Send Final Data Array into a CSV File
         WriteCSV.writeToCsv(statistics, directory.getPath());
     }
 
-    void checkCount(int charCount) {
+    void checkCount(String texted, int charCount) {
         try {
-            cleanedText = RemoveUnwantedChar.cleanText(buffer.toString());
-            cleanedText = cleanedText.substring(0, sampleLength);
-            System.out.println(cleanedText);
+            uncleanText = cleanedText;
+            cleanedText = RemoveUnwantedChar.cleanText(texted);
+            //cleanedText = cleanedText.substring(0, sampleLength);
+//            System.out.println(cleanedText);
         } catch (StringIndexOutOfBoundsException ex) {
-            System.out.println("Total character shorter than specified length! Total count of characters in file is " + buffer.toString().length());
-            System.out.println("Supply character length <= total characters for sampling: ");
-            sampleLength = sc.nextInt();
-            checkCount(sampleLength);
+//            System.out.println("Total character shorter than specified length! Total count of characters in file is " + buffer.toString().length());
+//            System.out.println("Supply character length <= total characters for sampling: ");
+//            sampleLength = sc.nextInt();
+//            checkCount(sampleLength);
         }
     }
 

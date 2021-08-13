@@ -6,6 +6,10 @@
             <file>file:/C:/Users/User/Documents/NetBeansProjects/LanguageFileProcessor/src/languagefileprocessor/statistics/GetVowelCount.java</file>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/LanguageFileProcessor/src/languagefileprocessor/statistics/CalculateStatistics.java</file>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/LanguageFileProcessor/src/languagefileprocessor/writer/WriteCSV.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/LanguageFileProcessor/src/languagefileprocessor/reader/TextReader.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/LanguageFileProcessor/src/languagefileprocessor/cleaner/RemoveUnwantedChar.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/LanguageFileProcessor/src/languagefileprocessor/reader/WordDocumentReader.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/LanguageFileProcessor/src/languagefileprocessor/reader/PDFReader.java</file>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/LanguageFileProcessor/src/languagefileprocessor/LanguageFileProcessor.java</file>
         </group>
     </open-files>
