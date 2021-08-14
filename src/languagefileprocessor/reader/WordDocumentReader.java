@@ -21,9 +21,9 @@ public class WordDocumentReader {
     public StringBuffer extractWord(String documentUrl, String ext) {
         StringBuffer buffer = new StringBuffer();
 
-        File file = null;
-        WordExtractor docExtractor = null;
-        XWPFWordExtractor docxExtractor = null;
+        File file;
+        WordExtractor docExtractor;
+        XWPFWordExtractor docxExtractor;
         try {
             file = new File(documentUrl);
             try (FileInputStream fis = new FileInputStream(file.getAbsolutePath())) {

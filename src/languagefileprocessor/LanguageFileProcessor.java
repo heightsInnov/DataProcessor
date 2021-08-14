@@ -116,7 +116,9 @@ public class LanguageFileProcessor {
 
         for (int i = 0; i < list.size(); i++) {
             if (i <= 15) {
-                checkCount(list.get(i), sampleLength);
+
+                String uncleanText = list.get(i);
+                cleanedText = RemoveUnwantedChar.cleanText(uncleanText);
                 List<String> textArray = RemoveUnwantedChar
                         .splitText(cleanedText)
                         .stream()
@@ -147,20 +149,6 @@ public class LanguageFileProcessor {
         }
         //Send Final Data Array into a CSV File
         WriteCSV.writeToCsv(statistics, directory.getPath());
-    }
-
-    void checkCount(String texted, int charCount) {
-        try {
-            uncleanText = cleanedText;
-            cleanedText = RemoveUnwantedChar.cleanText(texted);
-            //cleanedText = cleanedText.substring(0, sampleLength);
-//            System.out.println(cleanedText);
-        } catch (StringIndexOutOfBoundsException ex) {
-//            System.out.println("Total character shorter than specified length! Total count of characters in file is " + buffer.toString().length());
-//            System.out.println("Supply character length <= total characters for sampling: ");
-//            sampleLength = sc.nextInt();
-//            checkCount(sampleLength);
-        }
     }
 
     public static void main(String[] args) {

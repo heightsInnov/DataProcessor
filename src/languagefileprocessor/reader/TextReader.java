@@ -23,13 +23,13 @@ public class TextReader {
         StringBuffer buffer = new StringBuffer();
         File inFile = new File(documentUrl);
         try {
-            String string = new String();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inFile)));
-            while ((string = reader.readLine()) != null) {
-                buffer.append(string);
-                buffer.append("\n");
+            String string;
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inFile)))) {
+                while ((string = reader.readLine()) != null) {
+                    buffer.append(string);
+                    buffer.append("\n");
+                }
             }
-            reader.close();
         } catch (Exception e) {
             System.out.println("Error locating/reading file, please check url and try again");
             return buffer;
