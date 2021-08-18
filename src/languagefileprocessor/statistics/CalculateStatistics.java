@@ -5,6 +5,7 @@
  */
 package languagefileprocessor.statistics;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -14,31 +15,31 @@ import java.util.TreeMap;
  * @author User
  */
 public class CalculateStatistics {
-    
-    public static List<String> getCharacterCount(String buffer, List<String> list){
-        
+
+    public static List<String> getCharacterCount(String buffer, List<String> list) {
+
         // Initializing counters
         int characterCount = 0;
         int spaceCount = 0;
-        
+
         //Count the characters in the string except space    
-        for(int i = 0; i < buffer.length(); i++) 
-        {    
-            if(buffer.charAt(i) != ' ')    
-                characterCount++; 
-            else
+        for (int i = 0; i < buffer.length(); i++) {
+            if (buffer.charAt(i) != ' ') {
+                characterCount++;
+            } else {
                 spaceCount++;
-                
+            }
+
         }
         list.add(String.valueOf(characterCount));
         list.add(String.valueOf(spaceCount));
         return list;
     }
-    
-    public static Map<String,Integer> getWordCount(String[] textArray){
-        
-        Map<String,Integer> mp = new TreeMap<>();
- 
+
+    public static Map<String, Integer> getWordCount(String[] textArray) {
+
+        Map<String, Integer> mp = new TreeMap<>();
+
         // Loop to iterate over the words
         for (String textArray1 : textArray) {
             // Condition to check if the
@@ -52,31 +53,45 @@ public class CalculateStatistics {
         }
         return mp;
     }
-    
-    public static List<String> calculateWordLength(List<String> textArray, List<String> inputList, String lang){
-        
+
+    public static List<String> calculateWordLength(List<String> textArray, List<String> inputList, String lang) {
+
         int shortCount = 0;
         int longCount = 0;
-        
-        if(lang.equals("german")){
-            for(String s : textArray){
-                    if(s.length() > 6)
-                        longCount++;
-                    else
-                        shortCount++;
+
+        if (lang.equals("german")) {
+            for (String s : textArray) {
+                if (s.length() > 6) {
+                    longCount++;
+                } else {
+                    shortCount++;
                 }
-        }else{
-            for(String s : textArray){
-                    if(s.length() > 5)
-                        longCount++;
-                    else
-                        shortCount++;
+            }
+        } else {
+            for (String s : textArray) {
+                if (s.length() > 5) {
+                    longCount++;
+                } else {
+                    shortCount++;
                 }
+            }
         }
-        
+
         inputList.add(String.valueOf(shortCount));
         inputList.add(String.valueOf(longCount));
-        
+
         return inputList;
+    }
+
+    public static int bigramCounter(int n, List<String> fullBagOfWords) {
+        ArrayList<String> bigramList = new ArrayList<>();
+
+        for (int i = 0; i < fullBagOfWords.size() - 1; i++) {
+            for (int j = i + n; j < fullBagOfWords.size(); j++) {
+                if(j < fullBagOfWords.size() && i < fullBagOfWords.size())
+                    bigramList.add(fullBagOfWords.get(i) + " " + fullBagOfWords.get(j-(n-1)) + " " + fullBagOfWords.get(j));
+            }
+        }
+        return bigramList.size();
     }
 }

@@ -76,7 +76,8 @@ public class LanguageFileProcessor {
         metrics.add("Short word count");
         metrics.add("Long word count");
         metrics.add("Sentence length");
-//        metrics.add("Line count");
+        metrics.add("Bigram Distribution");
+        metrics.add("Trigram Distribution");
 
         statistics.add(metrics);
 
@@ -132,19 +133,9 @@ public class LanguageFileProcessor {
                 results = GetVowelCount.vowelCount(cleanedText, results, textArray.get(0));
                 results = CalculateStatistics.calculateWordLength(textArray, results, textArray.get(0));
                 results.add(String.valueOf(uncleanText.split("[\\.\\?!]").length));
-
+                results.add(String.valueOf(CalculateStatistics.bigramCounter(2, textArray)));
+                results.add(String.valueOf(CalculateStatistics.bigramCounter(3, textArray)));
                 statistics.add(results);
-
-//                String[] textArrayString = textArray.toArray(new String[0]);
-//                Map<String, Integer> freq = new HashMap<>();
-//
-////             Loop to iterate over the
-////             elements of the map
-//                CalculateStatistics.getWordCount(textArrayString).entrySet().forEach(entry -> {
-//                    freq.put(entry.getKey(), entry.getValue());
-//                    System.out.format("%15s%10d \n", entry.getKey(), entry.getValue());
-//                });
-//                freqs.add(freq);
             }
         }
         //Send Final Data Array into a CSV File
